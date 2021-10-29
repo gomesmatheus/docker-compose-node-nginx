@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  node:
+    build:
+      context: node
+    image: matheusgomes1/node-desafio:prod
+    command: > 
+      sh -c "npm install &&
+             node index.js"
+    container_name: node
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    networks: 
+      - nodenetwork
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes: 
+      - ./mysql:/var/lib/mysql
+    environment: 
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - nodenetwork
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
+    image: matheusgomes1/nginx-desafio:prod
+    container_name: nginx
+    networks:
+      - nodenetwork
+    ports:
+      - "8080:80"
+
+networks:
+  nodenetwork:
+    driver: bridge
