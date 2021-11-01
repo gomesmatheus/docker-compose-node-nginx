@@ -26,8 +26,9 @@ services:
     container_name: db
     restart: always
     tty: true
-    volumes: 
-      - ./mysql:/var/lib/mysql
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
     environment: 
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
