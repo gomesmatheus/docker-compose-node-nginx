@@ -6,14 +6,16 @@ const config = {
   host: 'db',
   user: 'root',
   password: 'root',
-  database: 'nodedb'
+  database: 'nodedb',
+  port: 3306
 };
 
-const connection = mysql.createConnection(config);
-const sql = `INSERT INTO people(name) VALUES ('Matheus')`;
-connection.query(sql);
+
 
 app.get('/', (req, res) => {
+  const connection = mysql.createConnection(config);
+  const sql = `INSERT INTO people(name) VALUES ('Matheus')`;
+  connection.query(sql);
   const selectQuery = `SELECT name FROM people`;
   var namesList = '';
   connection.query(selectQuery, (err, result, fields) => {
