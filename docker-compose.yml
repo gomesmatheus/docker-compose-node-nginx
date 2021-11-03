@@ -9,7 +9,7 @@ services:
       sh -c "npm install &&
              node index.js"
     container_name: node
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    # entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     networks: 
       - nodenetwork
     volumes:
@@ -32,7 +32,7 @@ services:
     networks:
       - nodenetwork
     volumes:
-    - ./database:/tmp/database
+      - ./database:/tmp/database
     command: mysqld --init-file="/tmp/database/install_db.sql"
 
   nginx:
