@@ -7,10 +7,7 @@ const config = {
   user: 'root',
   password: 'root',
   database: 'nodedb',
-  port: 3306
 };
-
-
 
 app.get('/', (req, res) => {
   const connection = mysql.createConnection(config);
