@@ -34,6 +34,8 @@ services:
     volumes:
       - ./database:/tmp/database
     command: mysqld --init-file="/tmp/database/install_db.sql"
+    expose:
+      - "3306"
 
   nginx:
     build:
